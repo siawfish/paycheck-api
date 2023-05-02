@@ -14,9 +14,9 @@ services:
       args:
         - NODE_ENV=production
     ports:
-      - 8000:8000
+      - 8080:8080
     environment:
-      PORT: 8000
+      PORT: 8080
       MONGODB_DATABASE_URL: 'mongodb://root:rootpassword@db:27017/paycheck_dev?authSource=admin'
       PATH_IMAGE: /home/paycheck_dev/image-files
       PATH_PAYMENT: /home/paycheck_dev/invoice-files
