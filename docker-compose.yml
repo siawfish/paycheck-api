@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    volumes:
+      - ./data:/data
+    ports: 
+      - 6379:6379
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=production
+    ports:
+      - 8000:8000
+    environment:
+      PORT: 8000
+      MONGODB_DATABASE_URL: 'mongodb://root:rootpassword@db:27017/paycheck_dev?authSource=admin'
+      PATH_IMAGE: /home/paycheck_dev/image-files
+      PATH_PAYMENT: /home/paycheck_dev/invoice-files
+    networks:
+      - backend
+    depends_on:
+      - db
+    volumes:
+      - image-files:/home/paycheck_dev/image-files
+      - invoice-files:/home/paycheck_dev/invoice-files
+  db:
+    image: mongo:latest
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: paycheck_dev
+
+    ports:
+      - 27017:27017
+    volumes:
+      - db:/data/db
+    networks:
+      - backend
+
+volumes:
+  db:
+  image-files:
+  invoice-files:
+
+networks:
+  backend:
