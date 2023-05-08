@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
@@ -19,6 +19,7 @@ import { CompaniesService } from '../companies/companies.service';
 import { EmploymentsService } from '../employments/employments.service';
 import { Company } from '../companies/entities/company.entity';
 import { Employment } from '../employments/entities/employment.entity';
+import { Repository } from 'typeorm';
 dotenv.config();
 
 @Module({
@@ -30,6 +31,7 @@ dotenv.config();
       secret: process.env.SECRET_OR_KEY,
       signOptions: { expiresIn: '365d' },
     }),
+    Repository,
   ],
   controllers: [AuthController],
   providers: [
@@ -44,6 +46,8 @@ dotenv.config();
     SmsOtpService,
     CompaniesService,
     EmploymentsService,
+    UsersModule,
+    Repository,
   ],
 })
 export class AuthModule {}

@@ -9,16 +9,22 @@ import { SmsOtpService } from '../sms-otp/sms-otp.service';
 import { ResponseVerifyOtp } from '../sms-otp/entities/sms-otp.entity';
 import { CompaniesService } from '../companies/companies.service';
 import { EmploymentsService } from '../employments/employments.service';
-import { VerifyType } from '../users/entities/users.entity';
+import { VerifyType, User, FieldNameNoApproval } from '../users/entities/users.entity';
+import { Role } from 'src/module/users/entities/users.entity';
+import { Repository } from 'typeorm';
+import { isEnum } from 'class-validator';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(User)
     private readonly usersService: UsersService,
     private readonly otpService: SmsOtpService,
     private readonly jwt: JwtService,
     private readonly companyService: CompaniesService,
     private readonly employmentService: EmploymentsService,
+    private readonly usersRepository: Repository<User>,
   ) {}
   saltOrRounds = 10;
 
@@ -316,5 +322,32 @@ export class AuthService {
     }
 
     return await this.usersService.updateUser(_id, { password_hashed: await this.encryptionPassword(inf.new_password) });
+  }
+
+  async dangerouslyUpdateRole(inf: { role: Role; _id: string }) {
+    if (!Object.values(Role).includes(inf.role) || !inf?._id) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          error: `Role not found`,
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+    try {
+      const user: any = await this.usersRepository.findOne({ where: { _id: ObjectId(inf?._id) } });
+      Object.keys(inf).forEach((value) => {
+        user[value] = inf[value];
+      });
+      return await this.usersRepository.save(inf);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          error: `User not found`,
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
   }
 }
