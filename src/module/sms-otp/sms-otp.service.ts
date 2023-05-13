@@ -26,7 +26,9 @@ export class SmsOtpService {
       hash: hash,
     };
     console.log('🚀 ~ OTP -----> ', otp);
-    await this.SmsOtpRepository.save(save);
+    console.log('🚀 ~ OTP OBJ -----> ', save);
+    const res = await this.SmsOtpRepository.save(save);
+    console.log('🚀 ~ file: sms-otp.service.ts ~ line 45 ~ SmsOtpService ~ create ~ res', res);
     this.sendOTP({ phone_number: phone_number, OTP: otp }).catch((e) => console.error(e?.message));
   }
 
