@@ -25,7 +25,7 @@ export class SmsOtpService {
       expires: expires,
       hash: hash,
     };
-
+    console.log('🚀 ~ OTP -----> ', otp);
     await this.SmsOtpRepository.save(save);
     await this.sendOTP({ phone_number: phone_number, OTP: otp });
   }
