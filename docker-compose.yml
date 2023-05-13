@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: "vEcsh9dFTdNa66V8"
+      MONGO_INITDB_ROOT_PASSWORD: vEcsh9dFTdNa66V8
       MONGO_INITDB_DATABASE: paycheck
     ports:
       - 31007:27017
