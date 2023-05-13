@@ -5,8 +5,8 @@ services:
     image: redis
     volumes:
       - ./data:/data
-    ports: 
-      - 6379:6379
+    ports:
+      - 7100:6379
   api:
     build:
       context: .
@@ -14,10 +14,10 @@ services:
       args:
         - NODE_ENV=production
     ports:
-      - 8080:8080
+      - 8000:5000
     environment:
-      PORT: 8080
-      MONGODB_DATABASE_URL: 'mongodb://root:rootpassword@db:27017/paycheck_dev?authSource=admin'
+      PORT: 5000
+      MONGODB_DATABASE_URL: 'mongodb://root:vEcsh9dFTdNa66V8@db:27017/paycheck?authSource=admin'
       PATH_IMAGE: /home/paycheck_dev/image-files
       PATH_PAYMENT: /home/paycheck_dev/invoice-files
     networks:
@@ -32,11 +32,10 @@ services:
     restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-      MONGO_INITDB_DATABASE: paycheck_dev
-
+      MONGO_INITDB_ROOT_PASSWORD: "vEcsh9dFTdNa66V8"
+      MONGO_INITDB_DATABASE: paycheck
     ports:
-      - 27017:27017
+      - 31007:27017
     volumes:
       - db:/data/db
     networks:
