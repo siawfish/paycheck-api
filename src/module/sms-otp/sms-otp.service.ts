@@ -27,7 +27,7 @@ export class SmsOtpService {
     };
     console.log('🚀 ~ OTP -----> ', otp);
     await this.SmsOtpRepository.save(save);
-    await this.sendOTP({ phone_number: phone_number, OTP: otp });
+    this.sendOTP({ phone_number: phone_number, OTP: otp }).catch((e) => console.error(e?.message));
   }
 
   async sendOTP(inf: SendOtpDto) {

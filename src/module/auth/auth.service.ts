@@ -250,9 +250,21 @@ export class AuthService {
   async verifyOtp(inf: VerifyOtpDto) {
     const check = await this.otpService.findOne({ userId: inf.userId });
 
+    console.log('check -----> ', check);
+
+    if (!check) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          error: `OTP don't exits`,
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
     const now = Date.now();
 
-    if (now > check.expires) {
+    if (now > check?.expires) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
