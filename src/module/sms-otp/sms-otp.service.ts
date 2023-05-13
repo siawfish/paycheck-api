@@ -65,7 +65,8 @@ export class SmsOtpService {
   }
 
   async findOne(query: any): Promise<SmsOtp> {
-    const payment = await this.SmsOtpRepository.findOne({ where: query, order: { createdAt: -1 } });
+    const payment = await this.SmsOtpRepository.findOne(query);
+    console.log('🚀 ~ file: sms-otp.service.ts ~ line 77 ~ SmsOtpService ~ findOne ~ res', payment);
     if (payment) {
       payment._id = payment._id.toString();
 
