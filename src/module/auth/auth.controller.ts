@@ -77,14 +77,14 @@ export class AuthController {
     return await this.authService.changePassword(req.user._id, body);
   }
 
-  @ApiOperation({ summary: 'Dangerously update user role' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
-  @ApiResponse({ status: 200, description: 'OK', type: User })
-  @Post('/dangerously-update-role')
-  @Public()
-  @ApiOkResponse({ type: User })
-  async dangerouslyUpdateRole(@Req() req: any, @Body() body: any) {
-    return await this.authService.dangerouslyUpdateRole(body);
-  }
+  // @ApiOperation({ summary: 'Dangerously update user role' })
+  // @ApiResponse({ status: 401, description: 'Unauthorized' })
+  // @ApiResponse({ status: 400, description: 'Bad Request' })
+  // @ApiResponse({ status: 200, description: 'OK', type: User })
+  // @Post('/dangerously-update-role')
+  // @Public()
+  // @ApiOkResponse({ type: User })
+  // async dangerouslyUpdateRole(@Req() req: any, @Body() body: any) {
+  //   return await this.authService.dangerouslyUpdateRole(body);
+  // }
 }

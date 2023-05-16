@@ -19,7 +19,7 @@ import { CompaniesService } from '../companies/companies.service';
 import { EmploymentsService } from '../employments/employments.service';
 import { Company } from '../companies/entities/company.entity';
 import { Employment } from '../employments/entities/employment.entity';
-import { Repository } from 'typeorm';
+// import { Repository } from 'typeorm';
 dotenv.config();
 
 @Module({
@@ -31,7 +31,7 @@ dotenv.config();
       secret: process.env.SECRET_OR_KEY,
       signOptions: { expiresIn: '365d' },
     }),
-    Repository,
+    // Repository,
   ],
   controllers: [AuthController],
   providers: [
@@ -47,7 +47,7 @@ dotenv.config();
     CompaniesService,
     EmploymentsService,
     UsersModule,
-    Repository,
+    // Repository,
   ],
 })
 export class AuthModule {}
