@@ -25,10 +25,7 @@ export class SmsOtpService {
       expires: expires,
       hash: hash,
     };
-    console.log('🚀 ~ OTP -----> ', otp);
-    console.log('🚀 ~ OTP OBJ -----> ', save);
-    const res = await this.SmsOtpRepository.save(save);
-    console.log('🚀 ~ file: sms-otp.service.ts ~ line 45 ~ SmsOtpService ~ create ~ res', res);
+    await this.SmsOtpRepository.save(save);
     this.sendOTP({ phone_number: phone_number, OTP: otp }).catch((e) => console.error(e?.message));
   }
 
@@ -45,7 +42,7 @@ export class SmsOtpService {
             <username>${process.env.USERNAME_TEXtME}</username>\r\n
             <password>${process.env.PASSWORD_TEXtME}</password>\r\n
             </user>\r\n
-            <source>TextMe</source>\r\n
+            <source>Paycheckapp</source>\r\n
             <destinations>\r\n
             <phone id=''>${inf.phone_number}</phone>\r\n
             </destinations>\r\n
