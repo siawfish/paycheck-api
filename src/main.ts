@@ -13,11 +13,11 @@ const customOptions: SwaggerCustomOptions = {
 };
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // Setup swagger api document
-  app.enableCors({
-    origin: ['https://paycheck-dashboard.vercel.app', 'http://localhost:3000'], // Whitelist specific origins
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
   });
+  // Setup swagger api document
+  app.enableCors();
   const options = new DocumentBuilder()
     .setTitle('Paycheck API')
     .setDescription('API documentation for Paycheck project')
