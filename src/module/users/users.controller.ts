@@ -116,4 +116,14 @@ export class UsersController {
   deleteUser(@Param('id') id: string) {
     return this.userService.delete(id);
   }
+
+  @ApiBearerAuth()
+  @ApiOperation({ summary: `Approve User` })
+  @CheckPolicies((ability: AppAbility) => ability.can(Action.Manage, User))
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 200, description: 'OK' })
+  @Patch('approve/:id')
+  approveUser(@Param('id') id: string) {
+    return this.userService.approveUser(id);
+  }
 }

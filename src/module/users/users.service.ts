@@ -107,4 +107,20 @@ export class UsersService {
   async delete(id: string) {
     return await this.usersRepository.delete(id);
   }
+
+  async approveUser(id: string) {
+    const user: any = await this.usersRepository.findOne({ where: { _id: ObjectId(id) } });
+    user.isApproved = true;
+    user.companies_approval = VerifyType.APPROVED;
+    user.full_name_approval = VerifyType.APPROVED;
+    user.phone_number_approval = VerifyType.APPROVED;
+    user.email_approval = VerifyType.APPROVED;
+    user.address_approval = VerifyType.APPROVED;
+    user.country_approval = VerifyType.APPROVED;
+    user.freelancer_type_approval = VerifyType.APPROVED;
+    user.employment_id_approval = VerifyType.APPROVED;
+
+    const result = await this.usersRepository.save(user);
+    return await this.findOne({ _id: ObjectId(result._id) });
+  }
 }
