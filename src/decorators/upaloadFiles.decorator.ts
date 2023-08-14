@@ -6,6 +6,8 @@ import { FieldNameOfFileType } from 'src/module/upload-files/entities/upload-fil
 import { diskStorage } from 'multer';
 import * as fs from 'fs';
 import { v4 as uuidv6 } from 'uuid';
+import { storage } from 'src/firebase/config';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 export function ApiFilesBody() {
   const properties = {};
@@ -80,10 +82,15 @@ export const DiskStorage: MulterOptions = {
       const user: any = req.user;
       const id: string = uuidv6();
 
-      fs.mkdirSync(process.env.PATH_IMAGE + '/' + user._id + '/' + file.fieldname + '/' + id, {
-        recursive: true,
+      // upload file to firebase
+      const storageRef = ref(storage, process.env.PATH_IMAGE + '/' + user._id + '/' + file.fieldname + '/' + id + '/' + file.originalname);
+      uploadBytes(storageRef, file.buffer).then((snapshot) => {
+        const httpsReference = getDownloadURL(snapshot.ref);
+        httpsReference.then((url) => {
+          console.log('File available at', url);
+          cb(null, url);
+        });
       });
-      cb(null, process.env.PATH_IMAGE + '/' + user._id + '/' + file.fieldname + '/' + id);
     },
     filename: (req, files, cb) => {
       cb(null, files.originalname);
@@ -98,10 +105,15 @@ export const DiskStorageAdmin: MulterOptions = {
   storage: diskStorage({
     destination: (req, file, cb) => {
       const id: string = uuidv6();
-      fs.mkdirSync(process.env.PATH_PAYMENT + '/' + file.fieldname + '/' + id, {
-        recursive: true,
+      // upload file to firebase
+      const storageRef = ref(storage, process.env.PATH_PAYMENT + '/' + file.fieldname + '/' + id + '/' + file.originalname);
+      uploadBytes(storageRef, file.buffer).then((snapshot) => {
+        const httpsReference = getDownloadURL(snapshot.ref);
+        httpsReference.then((url) => {
+          console.log('File available at', url);
+          cb(null, url);
+        });
       });
-      cb(null, process.env.PATH_PAYMENT + '/' + file.fieldname + '/' + id);
     },
     filename: (req, files, cb) => {
       cb(null, files.originalname);

@@ -40,6 +40,7 @@
     "class-validator": "^0.13.2",
     "config": "^3.3.7",
     "fcm-node": "^1.6.1",
+    "firebase": "^10.1.0",
     "firebase-admin": "^10.1.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
