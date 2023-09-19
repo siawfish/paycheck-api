@@ -84,10 +84,11 @@ export const DiskStorage: MulterOptions = {
 
       // upload file to firebase
       const storageRef = ref(storage, process.env.PATH_IMAGE + '/' + user._id + '/' + file.fieldname + '/' + id + '/' + file.originalname);
+      console.log('about to upload');
       uploadBytes(storageRef, file.buffer).then((snapshot) => {
         const httpsReference = getDownloadURL(snapshot.ref);
         httpsReference.then((url) => {
-          console.log('File available at', url);
+          console.log('File available at========>', url);
           cb(null, url);
         });
       });
